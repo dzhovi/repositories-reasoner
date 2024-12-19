@@ -24,11 +24,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Tests
-      run: pytest
-
     - name: Lint Code
       run: |
         pip install black flake8
         black --check src/ tests/
         flake8 src/ tests/
+
+    - name: Run Tests with Coverage
+      run: python -m pytest --cov=src tests/
+
+    - name: Upload Coverage to Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: coveralls --service=github
