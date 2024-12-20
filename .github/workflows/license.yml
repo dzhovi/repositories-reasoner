@@ -37,7 +37,7 @@ jobs:
             -name "LICENSE.*" \
             -o -name "*.yml" \
             -o -name "*.py" \) > files.txt
-          header="Copyright (c) 2024 Aliaksei Bialiauski"
+          header="Copyright (c) 2024 Vakhidov Dzhovidon"
           failed="false"
           while IFS= read -r file; do
             if ! grep -q "$header" "$file"; then
