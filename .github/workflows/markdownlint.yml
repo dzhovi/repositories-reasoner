@@ -24,10 +24,10 @@ name: markdown-lint
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 concurrency:
   group: markdown-lint-${{ github.ref }}
   cancel-in-progress: true
