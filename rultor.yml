@@ -23,11 +23,10 @@
 architect:
   - dzhovi
 merge:
-  script: |
+  script:
     make install test check
 release:
-  script: |
-    make install release
+  make install release
 deploy:
   script: |
     echo "There is no such thing as #deploy"
