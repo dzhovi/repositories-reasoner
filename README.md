@@ -2,15 +2,13 @@
 
 [![CI](https://github.com/dzhovi/repositories-reasoner/actions/workflows/ci.yml/badge.svg)](https://github.com/dzhovi/repositories-reasoner/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/dzhovi/repositories-reasoner/badge.svg?branch=main)](https://coveralls.io/github/dzhovi/repositories-reasoner?branch=main)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)]
-(https://github.com/dzhovi/repositories-reasoner/blob/main/LICENSE.txt)
-[![Known Vulnerabilities](https://snyk.io/test/github/dzhovi/repositories-reasoner/badge.svg)]
-(https://snyk.io/test/github/dzhovi/repositories-reasoner)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/dzhovi/repositories-reasoner/blob/main/LICENSE.txt)
+[![Known Vulnerabilities](https://snyk.io/test/github/dzhovi/repositories-reasoner/badge.svg)](https://snyk.io/test/github/dzhovi/repositories-reasoner)
 
-Repositories Reasoner is a command-line application that facilitates llm 
+Repositories Reasoner is a command-line application that facilitates llm
 capabilities to reason about different aspects
 of repository.
-Primary task that can be solved using repositories reasoner is to determine 
+Primary task that can be solved using repositories reasoner is to determine
 whether repository maintained or not.
 
 **Motivation**. During the work on [CaM](https://github.com/yegor256/cam)
