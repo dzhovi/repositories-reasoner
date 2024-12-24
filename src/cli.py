@@ -32,10 +32,9 @@ from src import NAME
 
 @app.command()
 def filter(
-        repositories: str = typer.Option(
-            ..., "--repositories", help="Path to the input repositories CSV file."
-        ),
-
+    repositories: str = typer.Option(
+        ..., "--repositories", help="Path to the input repositories CSV file."
+    ),
 ):
     """
     Filter repositories.
@@ -43,16 +42,17 @@ def filter(
     print(repositories)
     print(NAME)
 
+
 # Run it.
 @app.callback()
 def main(
-        # pylint: disable=unused-argument
-        version: Optional[bool] = typer.Option(
-            None,
-            "--version",
-            help="Show the application's version and exit.",
-            is_eager=True,
-        )
+    # pylint: disable=unused-argument
+    version: Optional[bool] = typer.Option(
+        None,
+        "--version",
+        help="Show the application's version and exit.",
+        is_eager=True,
+    )
 ) -> None:
     f"""
     {NAME}
