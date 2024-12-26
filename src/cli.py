@@ -26,7 +26,9 @@ Cli runner.
 from typing import Optional
 import typer
 from typer.cli import app
-
+from src.github_repository import GitHubRepository
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_gigachat.chat_models import GigaChat
 from src import NAME
 
 
@@ -41,6 +43,91 @@ def filter(
     """
     print(repositories)
     print(NAME)
+
+
+@app.command()
+def is_maintained(
+    repository: str = typer.Option(
+        ..., "--repository", help="GitHub repository name (e.g., 'owner/repo')"
+    ),
+    model: str = typer.Option(
+        "GigaChat", "--model", help="Name of Gigachat Model"
+    ),
+    api_key: str = typer.Option(
+        ..., "--key", help="your api key to access llm"
+    ),
+):
+    """
+    Decides whether the repository is maintained or not.
+    """
+    try:
+        # Initialize the GitHubRepository class
+        github_repo = GitHubRepository(repository)
+
+        # Fetch repository data
+        github_repo.fetch_repository_data()
+
+        # Extract metrics
+        metrics = github_repo.get_key_metrics()
+
+        # Log details for debugging
+        typer.echo(
+            f"Metrics: Stars={metrics.stars}, Forks={metrics.forks}, "
+            f"Last Push={metrics.last_push}, "
+            f"Open Issues={metrics.open_issues}, "
+            f"Archived={metrics.archived}"
+        )
+
+        # Analyze and decide maintenance status
+
+        # GigaChat initialization
+        llm = GigaChat(
+            credentials=api_key,
+            # Replace with your auth key
+            scope="GIGACHAT_API_PERS",
+            model=str(model),
+            verify_ssl_certs=False,
+            streaming=False,
+        )
+
+        # System prompt for GigaChat
+        system_message = SystemMessage(
+            content=(
+                "You are an AI assistant that analyzes GitHub repositories"
+                "to determine if they are maintained."
+                "You will use the following metrics:"
+                "stars, forks, last push date, open issues,"
+                "and archived status."
+                'Respond "yes" if the repository is maintained '
+                'and "no" otherwise.'
+                "Do not provide any justifications, just single word"
+            )
+        )
+
+        # Human prompt with repository metrics
+        user_message = HumanMessage(
+            content=(
+                f"Here are the repository metrics:\n"
+                f"- Stars: {metrics.stars}\n"
+                f"- Forks: {metrics.forks}\n"
+                f"- Last Push: {metrics.last_push}\n"
+                f"- Open Issues: {metrics.open_issues}\n"
+                f"- Archived: {metrics.archived}\n\n"
+                f"Is the repository maintained?"
+            )
+        )
+
+        # GigaChat invocation
+        messages = [system_message, user_message]
+        response = llm.invoke(messages)
+
+        # Log and display the response
+        typer.echo(f"{response.content}")
+
+    except ValueError as ve:
+        typer.echo(str(ve))
+    except Exception as e:
+        typer.echo(f"An unexpected error occurred: {e}")
 
 
 # Run it.

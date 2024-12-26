@@ -49,7 +49,7 @@ jobs:
     - name: Lint Code
       run: |
         pip install black flake8
-        black --check src/ tests/
+        black --check src/ tests/ --line-length=79
         flake8 src/ tests/
 
     - name: Run Tests with Coverage
