@@ -2,8 +2,7 @@
 
 [![CI](https://github.com/dzhovi/repositories-reasoner/actions/workflows/ci.yml/badge.svg)](https://github.com/dzhovi/repositories-reasoner/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/repo-reasoner.svg)](https://pypi.org/project/repo-reasoner/)
-[![Coverage Status](https://coveralls.io/repos/github/dzhovi/repositories-reasoner/badge.svg?branch=main)](https://coveralls.io/github/dzhovi/repositories-reasoner?branch=main)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/dzhovi/repositories-reasoner/blob/main/LICENSE.txt)
+[![Coverage Status](https://coveralls.io/repos/github/dzhovi/repositories-reasoner/badge.svg)](https://coveralls.io/github/dzhovi/repositories-reasoner)[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/dzhovi/repositories-reasoner/blob/main/LICENSE.txt)
 [![Known Vulnerabilities](https://snyk.io/test/github/dzhovi/repositories-reasoner/badge.svg)](https://snyk.io/test/github/dzhovi/repositories-reasoner)
 
 Repositories Reasoner is a command-line application that facilitates llm
@@ -38,3 +37,6 @@ in a format `author/repository_name`. The result would be printed into stdout.
 If `repo-reasoner` thinks that a given repository is maintained, it will answer `yes`,
 and `no` otherwise.
 If you feel missed, try `--help` and tool will explain to you what you should do.
+
+## Limitations
+In current implementation, you have no other options but gigachat as a llm.
