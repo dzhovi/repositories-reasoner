@@ -18,3 +18,23 @@ where we're building datasets with open source Java programs,
 we [discovered](https://github.com/yegor256/cam/issues/297)
 the need for filtering out repositories that not maintained. This repository
 is portable command-line tool that filters those repositories.
+
+## How to use
+
+First, install it from [PyPI](https://pypi.org/project/repo-reasoner/0.0.6/) like that:
+
+```bash
+pip install repo-reasoner
+```
+
+then, execute:
+
+```bash
+repo-reasoner is-maintained --repository=author/repository_name --key=your_gigachat_api_key
+```
+
+For `--repository` you should provide a name of **existing** Github reposioty,
+in a format `author/repository_name`. The result would be printed into stdout.
+If `repo-reasoner` thinks that a given repository is maintained, it will answer `yes`,
+and `no` otherwise.
+If you feel missed, try `--help` and tool will explain to you what you should do.
