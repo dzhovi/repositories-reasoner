@@ -20,7 +20,8 @@ is portable command-line tool that filters those repositories.
 
 ## How to use
 
-First, install it from [PyPI](https://pypi.org/project/repo-reasoner/0.0.6/) like that:
+First, install it from [PyPI](https://pypi.org/project/repo-reasoner/0.0.7/)
+like that:
 
 ```bash
 pip install repo-reasoner
@@ -39,4 +40,5 @@ and `no` otherwise.
 If you feel missed, try `--help` and tool will explain to you what you should do.
 
 ## Limitations
+
 In current implementation, you have no other options but gigachat as a llm.

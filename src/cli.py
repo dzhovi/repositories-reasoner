@@ -23,6 +23,7 @@
 """
 Cli runner.
 """
+import csv
 from typing import Optional
 import typer
 from typer.cli import app
@@ -33,16 +34,48 @@ from src import NAME
 
 
 @app.command()
-def filter(
+def filter_unmaintained(
     repositories: str = typer.Option(
         ..., "--repositories", help="Path to the input repositories CSV file."
     ),
+    output: str = typer.Option(
+        ..., "--output", help="Path to the output CSV file."
+    ),
+    api_key: str = typer.Option(
+        ..., "--key", help="Your API key to access LLM."
+    ),
+    model: str = typer.Option(
+        "GigaChat", "--model", help="Name of Gigachat Model"
+    ),
 ):
     """
-    Filter repositories.
+    Filter repositories to identify maintained ones.
     """
-    print(repositories)
-    print(NAME)
+    try:
+        maintained_repos = []
+
+        # Read the input CSV file
+        with open(repositories, mode="r", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+
+            for row in reader:
+                repository = row["full_name"]
+
+                # Call is_maintained for each repository
+                maintained = is_maintained(repository, model, api_key).lower()
+                if maintained == "yes":
+                    maintained_repos.append(row)
+
+        # Write the maintained repositories to the output CSV file
+        with open(output, mode="w", encoding="utf-8", newline="") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=reader.fieldnames)
+            writer.writeheader()
+            writer.writerows(maintained_repos)
+
+        typer.echo(f"Filtered repositories written to {output}")
+
+    except Exception as e:
+        typer.echo(f"An unexpected error occurred: {e}")
 
 
 @app.command()
@@ -122,7 +155,8 @@ def is_maintained(
         response = llm.invoke(messages)
 
         # Log and display the response
-        typer.echo(f"{response.content}")
+        typer.echo(f"is {repository} maintained?: {response.content}")
+        return response.content
 
     except ValueError as ve:
         typer.echo(str(ve))
