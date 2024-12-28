@@ -56,7 +56,7 @@ setup(
     author='Vakhidov Dzhovidon',
     author_email='asunabestwaifu1@gmail.com',
     description=
-    'Command-line filter for GitHub repositories that contain "samples",'
+    'Repository reasoner that uses llm",'
     ' instead of real project or framework or library',
     long_description=long_description,
     long_description_content_type='text/markdown',
