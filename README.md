@@ -20,7 +20,7 @@ is portable command-line tool that filters those repositories.
 
 ## How to use
 
-First, install it from [PyPI](https://pypi.org/project/repo-reasoner/0.0.7/) 
+First, install it from [PyPI](https://pypi.org/project/repo-reasoner/0.0.7/)
 like that:
 
 ```bash
