@@ -31,6 +31,8 @@ from source.github_repository import GitHubRepository
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_gigachat.chat_models import GigaChat
 from source import NAME
+import os
+
 
 
 @app.command()
@@ -78,6 +80,8 @@ def filter_unmaintained(
         typer.echo(f"An unexpected error occurred: {e}")
 
 
+import os
+
 @app.command()
 def is_maintained(
     repository: str = typer.Option(
@@ -89,9 +93,12 @@ def is_maintained(
     api_key: str = typer.Option(
         ..., "--key", help="your api key to access llm"
     ),
+    out: str = typer.Option(
+        ..., "--out", help="output csv file"
+    )
 ):
     """
-    Decides whether the repository is maintained or not.
+    Decides whether the repository is maintained or not and provides a reason, then writes the result to a CSV.
     """
     try:
         # Initialize the GitHubRepository class
@@ -111,33 +118,30 @@ def is_maintained(
             f"Archived={metrics.archived}"
         )
 
-        # Analyze and decide maintenance status
-
         # GigaChat initialization
         llm = GigaChat(
             credentials=api_key,
-            # Replace with your auth key
             scope="GIGACHAT_API_PERS",
             model=str(model),
             verify_ssl_certs=False,
             streaming=False,
         )
 
-        # System prompt for GigaChat
+        # System message for GigaChat
         system_message = SystemMessage(
             content=(
                 "You are an AI assistant that analyzes GitHub repositories"
-                "to determine if they are maintained."
-                "You will use the following metrics:"
-                "stars, forks, last push date, open issues,"
-                "and archived status."
-                'Respond "yes" if the repository is maintained '
-                'and "no" otherwise.'
-                "Do not provide any justifications, just single word"
+                " to determine if they are maintained."
+                " You will use the following metrics:"
+                " stars, forks, last push date, open issues,"
+                " and archived status."
+                "Your answer must be 2 lines:"
+                'In first line respond with "yes" or "no"'
+                "In the second line provide a very brief reason for your decision. Keep the justification under 50 characters."
             )
         )
 
-        # Human prompt with repository metrics
+        # Human message with repository metrics
         user_message = HumanMessage(
             content=(
                 f"Here are the repository metrics:\n"
@@ -146,7 +150,7 @@ def is_maintained(
                 f"- Last Push: {metrics.last_push}\n"
                 f"- Open Issues: {metrics.open_issues}\n"
                 f"- Archived: {metrics.archived}\n\n"
-                f"Is the repository maintained?"
+                f"Is the repository maintained? Please provide a reason."
             )
         )
 
@@ -154,14 +158,39 @@ def is_maintained(
         messages = [system_message, user_message]
         response = llm.invoke(messages)
 
-        # Log and display the response
-        typer.echo(f"is {repository} maintained?: {response.content}")
-        return response.content
+        # Parse response content: Expected format: "yes" or "no" and a reason
+        result = response.content.strip().split("\n", 1)
+        status = result[0].strip()
+        reason = result[1].strip() if len(result) > 1 else "No reason provided"
+
+        # Print the result in a fixed format
+        typer.echo(f"Repository: {repository}")
+        typer.echo(f"Maintained: {status}")
+        typer.echo(f"Reason: {reason}")
+
+        # Check if the output file exists
+        file_exists = os.path.isfile(out)
+
+        # Open the CSV file in append mode
+        with open(out, mode="a", encoding="utf-8", newline="") as csvfile:
+            fieldnames = ["repository", "maintained", "reason"]
+
+            if not file_exists or os.stat(out).st_size == 0:
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+
+            # Write the results to the file
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow({"repository": repository, "maintained": status, "reason": reason})
+
+        return status, reason
 
     except ValueError as ve:
         typer.echo(str(ve))
     except Exception as e:
         typer.echo(f"An unexpected error occurred: {e}")
+
+
 
 
 # Run it.

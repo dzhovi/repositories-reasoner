@@ -38,4 +38,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    cli.is_maintained(repository="yegor256/tojos", model="GigaChat", out ="/home/dzhovi/PycharmProjects/repositories-reasoner/kek.csv",
+                      api_key="M2VjMTU2ZTEtN2I2Zi00ZjRjLWI4YjQtZmM3NmRkZDQwYzQ3OmQwODRjNjZlLWI4YTAtNDg1My04NGQyLTkyN2JjZjIwNmRhZg==")
