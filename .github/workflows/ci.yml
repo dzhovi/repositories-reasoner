@@ -53,7 +53,7 @@ jobs:
         flake8 src/ tests/
 
     - name: Run Tests with Coverage
-      run: python -m pytest --cov=src tests/
+      run: python -m pytest --cov=source tests/
 
     - name: Upload Coverage to Coveralls
       env:

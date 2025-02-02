@@ -25,7 +25,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
 
-from src.github_repository import RepositoryMetrics, GitHubRepository
+from source.github_repository import RepositoryMetrics, GitHubRepository
 
 
 def test_days_since_last_push():
@@ -36,7 +36,7 @@ def test_days_since_last_push():
     assert metrics.days_since_last_push == 10
 
 
-@patch("src.github_repository.requests.get")
+@patch("source.github_repository.requests.get")
 def test_fetch_repository_data_success(mock_get):
     mock_response = MagicMock()
     mock_response.status_code = 200
@@ -56,7 +56,7 @@ def test_fetch_repository_data_success(mock_get):
     assert repo.repo_data["stargazers_count"] == 42
 
 
-@patch("src.github_repository.requests.get")
+@patch("source.github_repository.requests.get")
 def test_fetch_repository_data_not_found(mock_get):
     mock_response = MagicMock()
     mock_response.status_code = 404
@@ -68,7 +68,7 @@ def test_fetch_repository_data_not_found(mock_get):
         repo.fetch_repository_data()
 
 
-@patch("src.github_repository.requests.get")
+@patch("source.github_repository.requests.get")
 def test_fetch_repository_data_other_error(mock_get):
     mock_response = MagicMock()
     mock_response.status_code = 500

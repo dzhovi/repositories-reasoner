@@ -21,4 +21,21 @@
 # SOFTWARE.
 
 
-NAME = "samples-filter"
+"""
+Command-line entry point.
+"""
+from source import cli, NAME
+
+
+# Entry point.
+def main():
+    """
+    Main entry point for the command-line interface.
+
+    This function initializes and runs the command-line interface application.
+    """
+    cli.app(prog_name=NAME)
+
+
+if __name__ == "__main__":
+    main()

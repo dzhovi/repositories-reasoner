@@ -46,10 +46,10 @@ with open('README.md', 'r', encoding='utf-8') as f:
 setup(
     name='repo-reasoner',
     version=actual,
-    packages=['src'],
+    packages=['source'],
     entry_points={
         'console_scripts': [
-            'repo-reasoner=src.__main__:main',
+            'repo-reasoner=source.__main__:main',
         ],
     },
 

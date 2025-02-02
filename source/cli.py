@@ -27,10 +27,10 @@ import csv
 from typing import Optional
 import typer
 from typer.cli import app
-from src.github_repository import GitHubRepository
+from source.github_repository import GitHubRepository
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_gigachat.chat_models import GigaChat
-from src import NAME
+from source import NAME
 
 
 @app.command()
