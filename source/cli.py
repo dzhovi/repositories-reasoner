@@ -34,7 +34,6 @@ from source import NAME
 import os
 
 
-
 @app.command()
 def filter_unmaintained(
     repositories: str = typer.Option(
@@ -80,8 +79,6 @@ def filter_unmaintained(
         typer.echo(f"An unexpected error occurred: {e}")
 
 
-import os
-
 @app.command()
 def is_maintained(
     repository: str = typer.Option(
@@ -93,12 +90,11 @@ def is_maintained(
     api_key: str = typer.Option(
         ..., "--key", help="your api key to access llm"
     ),
-    out: str = typer.Option(
-        ..., "--out", help="output csv file"
-    )
+    out: str = typer.Option(..., "--out", help="output csv file"),
 ):
     """
-    Decides whether the repository is maintained or not and provides a reason, then writes the result to a CSV.
+    Decides whether the repository is maintained or not and
+    provides a reason, then writes the result to a CSV.
     """
     try:
         # Initialize the GitHubRepository class
@@ -137,7 +133,9 @@ def is_maintained(
                 " and archived status."
                 "Your answer must be 2 lines:"
                 'In first line respond with "yes" or "no"'
-                "In the second line provide a very brief reason for your decision. Keep the justification under 50 characters."
+                "In the second line provide a very brief reason "
+                "for your decision. "
+                "Keep the justification under 50 characters."
             )
         )
 
@@ -181,7 +179,13 @@ def is_maintained(
 
             # Write the results to the file
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow({"repository": repository, "maintained": status, "reason": reason})
+            writer.writerow(
+                {
+                    "repository": repository,
+                    "maintained": status,
+                    "reason": reason,
+                }
+            )
 
         return status, reason
 
@@ -189,8 +193,6 @@ def is_maintained(
         typer.echo(str(ve))
     except Exception as e:
         typer.echo(f"An unexpected error occurred: {e}")
-
-
 
 
 # Run it.
