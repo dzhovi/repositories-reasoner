@@ -4,3 +4,4 @@ coveralls==3.3.1
 langchain-gigachat==0.3.2
 pytest-mock==3.10.0
 typer==0.15.1
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
