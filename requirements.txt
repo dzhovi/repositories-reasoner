@@ -1,6 +1,6 @@
 pytest==8.2.2
 pytest-cov==5.0.0
 coveralls==3.3.1
-langchain-gigachat==0.3.2
+langchain-gigachat==0.3.4
 pytest-mock==3.10.0
 typer==0.15.1
