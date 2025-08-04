@@ -33,7 +33,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   markdown-lint:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62
       - uses: articulate/actions-markdownlint@v1
